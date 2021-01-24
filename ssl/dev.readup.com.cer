@@ -1,0 +1,112 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=US, ST=New Jersey, L=Toms River, O=reallyread.it, inc., OU=Engineering, CN=reallyread.it, inc. Development Certificate Authority/emailAddress=admin@readup.com
+        Validity
+            Not Before: Oct 29 19:57:55 2020 GMT
+            Not After : Jan  7 19:57:55 2023 GMT
+        Subject: C=US, ST=New Jersey, L=Toms River, O=reallyread.it, inc., OU=Engineering, CN=reallyread.it, inc. Development Servers
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:d3:13:c4:cd:ae:bd:d2:a0:ba:1e:02:ed:d5:e6:
+                    cb:74:59:2e:3d:d2:d8:ba:4c:58:ae:85:f6:e9:32:
+                    9a:f5:47:68:e0:3f:2e:71:47:bf:0c:43:15:c8:18:
+                    91:90:c6:86:9e:0b:18:0e:23:62:a7:e1:48:01:8b:
+                    8c:f0:c9:99:2e:93:23:30:ff:97:a8:2b:21:eb:b4:
+                    75:60:f1:86:1a:81:59:4e:6c:04:17:05:ea:ed:b1:
+                    d3:f9:90:73:80:47:78:b4:ca:c5:b3:e1:6c:de:72:
+                    7b:29:5f:da:c1:a8:c0:c6:03:bd:d6:f4:e7:d4:f3:
+                    a1:13:9c:e1:41:31:3d:7b:09:c1:e3:1d:db:75:5a:
+                    24:d8:02:3c:fc:ff:da:a6:1f:9f:17:98:3c:2c:2f:
+                    e8:33:bc:46:6d:72:e4:0e:d4:c9:4b:cb:d7:8f:29:
+                    59:e4:08:04:68:b7:4d:8b:ba:5a:7d:6a:42:c4:65:
+                    69:9d:98:5e:41:41:90:d5:da:c7:34:10:af:aa:72:
+                    51:2b:3d:57:4d:ae:46:91:3a:ee:90:03:b6:11:f2:
+                    a4:a6:67:7e:be:9f:5e:23:8d:53:38:0e:dd:64:10:
+                    a5:b4:cd:3d:ea:31:ea:62:56:e4:98:d4:03:f7:ea:
+                    02:93:12:d6:6e:31:3c:1b:99:26:06:d6:e6:79:3e:
+                    a2:27
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier: 
+                F5:F6:69:03:11:27:F3:98:B3:E0:1E:33:43:0D:C6:A5:9C:BB:50:2E
+            X509v3 Authority Key Identifier: 
+                keyid:89:D2:5B:CF:DB:DE:5B:4E:6C:73:8D:41:D1:4B:A7:A6:87:FB:41:31
+
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Key Usage: 
+                Digital Signature, Key Encipherment
+            X509v3 Subject Alternative Name: 
+                DNS:dev.readup.com, DNS:*.dev.readup.com
+            Netscape Comment: 
+                OpenSSL Generated Certificate
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+    Signature Algorithm: sha256WithRSAEncryption
+         31:07:23:1c:53:93:e6:6e:f5:fb:7b:e6:01:82:79:8e:3c:e9:
+         03:d9:ae:c2:72:5f:31:dd:31:96:32:5a:c5:cf:3a:2c:13:b1:
+         e8:27:2d:27:7f:fd:fa:f4:3f:df:db:dc:ab:be:fd:2a:ee:1f:
+         25:95:c2:84:1a:7d:6d:e5:be:83:27:08:e6:8f:60:a1:63:91:
+         10:3e:91:1d:94:0a:ba:1b:1a:7d:ac:c4:fb:27:51:35:55:d9:
+         54:d6:9a:c9:46:32:eb:30:25:06:14:9c:5a:0c:1f:a3:03:44:
+         e1:2a:4e:06:ef:bd:a8:86:3f:f1:58:fc:fb:c5:d9:fc:41:ea:
+         d1:7b:37:ae:68:ed:a5:80:a0:85:f7:9e:ed:59:e5:1b:3c:44:
+         96:7f:c4:c7:0d:3a:55:c0:ed:75:9b:f1:ae:28:b4:84:8a:01:
+         d9:76:09:ac:92:f5:84:c7:51:10:b3:ac:56:40:34:81:47:a9:
+         97:23:38:02:14:1a:d1:3d:b6:9e:f4:02:21:37:79:5f:3d:c4:
+         1f:0b:4a:c7:e5:b7:7e:62:61:28:b9:d2:09:b2:7b:f0:ef:be:
+         df:42:44:22:06:0a:4a:8a:36:a7:c9:11:d8:a5:01:8d:0b:d2:
+         cc:e0:80:a9:77:97:c3:18:2f:a9:13:46:c0:c5:0a:08:45:fd:
+         fc:7d:6c:0b:42:bc:07:ca:76:4e:9c:3c:5e:46:f5:f9:cb:91:
+         8d:e2:3b:73:63:dd:fd:f0:22:50:df:b4:7c:e8:39:4c:e4:e1:
+         e0:16:bb:cd:01:e0:f1:c3:7e:61:d2:15:5b:92:a1:d7:ac:61:
+         d8:ed:10:b4:f4:3c:83:13:d8:9b:de:77:66:b0:c1:10:40:fe:
+         27:5f:55:a4:70:07:9c:14:01:df:8b:db:45:bc:cf:2e:75:6b:
+         42:04:8c:0a:95:07:ab:f8:5a:6d:0c:60:6b:d7:20:91:0a:d4:
+         c5:30:f5:3b:c4:d5:d5:ac:7e:75:08:d8:ff:21:43:f1:02:6f:
+         46:b7:70:5c:4f:27:48:d0:50:78:35:4e:a3:d0:74:c5:73:af:
+         46:f6:08:56:95:f3:91:06:52:fd:c6:39:a3:e4:dc:9c:cb:d7:
+         34:83:ef:98:a5:4d:44:53:73:3f:2a:f9:70:06:21:85:7e:6a:
+         c4:3b:83:04:f2:f3:83:da:03:a1:83:54:20:d4:a2:72:93:03:
+         0b:23:3d:98:90:29:49:96:5f:9a:dd:4c:57:15:56:7f:ca:8c:
+         ef:81:64:03:8b:54:75:91:08:80:fb:89:ea:bb:cb:35:0f:27:
+         bb:0f:cf:9a:db:86:f8:c9:85:73:8e:97:de:59:bf:80:ec:9d:
+         39:6d:56:4b:3f:8f:0f:ec
+-----BEGIN CERTIFICATE-----
+MIIFsjCCA5qgAwIBAgIBATANBgkqhkiG9w0BAQsFADCBzDELMAkGA1UEBhMCVVMx
+EzARBgNVBAgMCk5ldyBKZXJzZXkxEzARBgNVBAcMClRvbXMgUml2ZXIxHDAaBgNV
+BAoME3JlYWxseXJlYWQuaXQsIGluYy4xFDASBgNVBAsMC0VuZ2luZWVyaW5nMT4w
+PAYDVQQDDDVyZWFsbHlyZWFkLml0LCBpbmMuIERldmVsb3BtZW50IENlcnRpZmlj
+YXRlIEF1dGhvcml0eTEfMB0GCSqGSIb3DQEJARYQYWRtaW5AcmVhZHVwLmNvbTAe
+Fw0yMDEwMjkxOTU3NTVaFw0yMzAxMDcxOTU3NTVaMIGdMQswCQYDVQQGEwJVUzET
+MBEGA1UECAwKTmV3IEplcnNleTETMBEGA1UEBwwKVG9tcyBSaXZlcjEcMBoGA1UE
+CgwTcmVhbGx5cmVhZC5pdCwgaW5jLjEUMBIGA1UECwwLRW5naW5lZXJpbmcxMDAu
+BgNVBAMMJ3JlYWxseXJlYWQuaXQsIGluYy4gRGV2ZWxvcG1lbnQgU2VydmVyczCC
+ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANMTxM2uvdKguh4C7dXmy3RZ
+Lj3S2LpMWK6F9ukymvVHaOA/LnFHvwxDFcgYkZDGhp4LGA4jYqfhSAGLjPDJmS6T
+IzD/l6grIeu0dWDxhhqBWU5sBBcF6u2x0/mQc4BHeLTKxbPhbN5yeylf2sGowMYD
+vdb059TzoROc4UExPXsJweMd23VaJNgCPPz/2qYfnxeYPCwv6DO8Rm1y5A7UyUvL
+148pWeQIBGi3TYu6Wn1qQsRlaZ2YXkFBkNXaxzQQr6pyUSs9V02uRpE67pADthHy
+pKZnfr6fXiONUzgO3WQQpbTNPeox6mJW5JjUA/fqApMS1m4xPBuZJgbW5nk+oicC
+AwEAAaOByzCByDAdBgNVHQ4EFgQU9fZpAxEn85iz4B4zQw3GpZy7UC4wHwYDVR0j
+BBgwFoAUidJbz9veW05sc41B0Uunpof7QTEwCQYDVR0TBAIwADALBgNVHQ8EBAMC
+BaAwKwYDVR0RBCQwIoIOZGV2LnJlYWR1cC5jb22CECouZGV2LnJlYWR1cC5jb20w
+LAYJYIZIAYb4QgENBB8WHU9wZW5TU0wgR2VuZXJhdGVkIENlcnRpZmljYXRlMBMG
+A1UdJQQMMAoGCCsGAQUFBwMBMA0GCSqGSIb3DQEBCwUAA4ICAQAxByMcU5PmbvX7
+e+YBgnmOPOkD2a7Ccl8x3TGWMlrFzzosE7HoJy0nf/369D/f29yrvv0q7h8llcKE
+Gn1t5b6DJwjmj2ChY5EQPpEdlAq6Gxp9rMT7J1E1VdlU1prJRjLrMCUGFJxaDB+j
+A0ThKk4G772ohj/xWPz7xdn8QerRezeuaO2lgKCF957tWeUbPESWf8THDTpVwO11
+m/GuKLSEigHZdgmskvWEx1EQs6xWQDSBR6mXIzgCFBrRPbae9AIhN3lfPcQfC0rH
+5bd+YmEoudIJsnvw777fQkQiBgpKijanyRHYpQGNC9LM4ICpd5fDGC+pE0bAxQoI
+Rf38fWwLQrwHynZOnDxeRvX5y5GN4jtzY9398CJQ37R86DlM5OHgFrvNAeDxw35h
+0hVbkqHXrGHY7RC09DyDE9ib3ndmsMEQQP4nX1WkcAecFAHfi9tFvM8udWtCBIwK
+lQer+FptDGBr1yCRCtTFMPU7xNXVrH51CNj/IUPxAm9Gt3BcTydI0FB4NU6j0HTF
+c69G9ghWlfORBlL9xjmj5Nycy9c0g++YpU1EU3M/KvlwBiGFfmrEO4ME8vOD2gOh
+g1Qg1KJykwMLIz2YkClJll+a3UxXFVZ/yozvgWQDi1R1kQiA+4nqu8s1Dye7D8+a
+24b4yYVzjpfeWb+A7J05bVZLP48P7A==
+-----END CERTIFICATE-----
