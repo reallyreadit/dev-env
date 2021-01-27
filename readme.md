@@ -35,7 +35,12 @@ The `static.readup.com` production server serves four main purposes:
     Setup of these directories is currently a manual process not covered in this guide. Not required for development use except for testing of the script update functionality.
 ## Reverse-Proxy Web Server
 This setup guide uses nginx but any web server capable of acting as a reverse-proxy and serving static content will work. The directories and commands are for macOS and will need to be modified for other operating systems.
-1. Install nginx using Macports or Homebrew
+1. Install nginx using Macports or Homebrew. Macports installation is as follows:
+        
+    1. Install Macports: https://www.macports.org/install.php The installer should add `/opt/local/bin` and `/opt/local/sbin` to your `PATH`.
+	 2. Install nginx: `sudo port install nginx`
+	 3. Start nginx: `sudo port load nginx`
+	 4. Verify nginx is installed and running by visiting http://127.0.0.1
 2. Copy the `dev.readup.com.cer` and `dev.readup.com.key` files in the `ssl` directory to `/etc/ssl`
 3. Create a custom nginx configuration file at `/opt/local/etc/nginx/readup-server.conf` with the following content:
     ```
@@ -109,7 +114,7 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
 	 ```
 5. Restart nginx to reload the configuration file.
 
-        sudo /opt/local/sbin/nginx -s reload
+        sudo nginx -s reload
 6. Add the `ca.dev.reallyread.it.cer` certificate to your system as a trusted root certificate authority.
     
 	 - macOS
@@ -117,7 +122,9 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
 	     - Import into "System" in Keychain Access
 		  - Right-click certificate and select "Get Info"
 		  - Expand the "Trust" section and select "Always Trust"
-    - iOS
+    - iOS (Simulator)
+	     - Drag and drop the `ca.dev.reallyread.it.cer` file into the Simulator window.
+    - iOS (Physical Device)
 
 	     - Copy `ios-profile.html` and `ca.dev.reallyread.it.cer` to the default nginx root directory: `/opt/local/share/nginx/html`
         - Navigate to the html file on your iOS device: `http://YOUR_COMPUTERS_IP/ios-profile.html`
@@ -126,6 +133,11 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
 	 - Windows
 
 	     - Import into the local computer's "Trusted Root Certification Authorities" location.
+
+    Note: On macOS and Windows most browsers will accept the certificate once added to the system certificate store. Firefox on macOS at least uses its own certificate store and requires the following steps. Other browsers may be similar.
+	 1. Open "Preferences" and go to "Privacy & Security"
+	 2. Scroll down to the "Certificates" section and click "View Certificates..."
+	 3. Go to the "Authorities" tab and click "Import" to import the `ca.dev.reallyread.it.cer` certificate.
 7. Configure DNS.
 
     If you're developing on macOS or Windows you only need to add the following entries to your hosts file located at `/private/etc/hosts` or `C:\Windows\System32\drivers\etc\hosts` respectively:
