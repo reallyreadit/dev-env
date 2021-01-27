@@ -1,5 +1,7 @@
 # Readup Development Environment Setup Guide
 ## Repositories
+### Prerequisites
+Readup will run on Linux, macOS or Windows. The guides in the readme files use macOS commands and directory structures as examples so translations may be required for Linux and Windows systems. PowerShell is required to execute some scripts that are included in various repositories. It is included by default in Windows but will need to be installed separately on Linux and macOS systems: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell
 ### Required
 There are three main repositories that constitute the core of the Readup platform: `db`, `api` and `web`. Begin setting up the development environment by cloning these repositories and following their respective readme files in the order listed:
 
