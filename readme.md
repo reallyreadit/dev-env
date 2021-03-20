@@ -22,7 +22,7 @@ The following repositories can optionally be installed now or at any point in th
 ## Reverse-Proxy Web Server
 This setup guide uses nginx but any web server capable of acting as a reverse-proxy and serving static content will work. The directories and commands are for macOS and will need to be modified for other operating systems.
 1. Install nginx using Macports or Homebrew. Macports installation is as follows:
-        
+
     1. Install Macports: https://www.macports.org/install.php The installer should add `/opt/local/bin` and `/opt/local/sbin` to your `PATH`.
 	 2. Install nginx: `sudo port install nginx`
 	 3. Start nginx: `sudo port load nginx`
@@ -62,6 +62,11 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
     		server_name static.dev.readup.com;
     		location / {
     			root       /Users/jeff/readup/static/content;
+    			add_header Access-Control-Allow-Origin *;
+    			add_header Cache-Control "max-age=0";
+    		}
+    		location /app/bundles {
+    			root       /Users/jeff/readup/web/bin/dev/app/client;
     			add_header Access-Control-Allow-Origin *;
     			add_header Cache-Control "max-age=0";
     		}
@@ -105,7 +110,7 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
 
         sudo nginx -s reload
 6. Add the `ca.dev.reallyread.it.cer` certificate to your system as a trusted root certificate authority.
-    
+
 	 - macOS
 
 	     - Import into "System" in Keychain Access
