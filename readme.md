@@ -70,11 +70,6 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
     			add_header Access-Control-Allow-Origin *;
     			add_header Cache-Control "max-age=0";
     		}
-    		location /common/auth-service-popup-handler/v1/index.html {
-    			alias      /Users/jeff/readup/web/src/common/auth-service-popup-handler/index.html;
-    			add_header Access-Control-Allow-Origin *;
-    			add_header Cache-Control "max-age=0";
-    		}
     		location /embed {
     			root       /Users/jeff/readup/web/bin/dev/embed;
     			add_header Access-Control-Allow-Origin *;
