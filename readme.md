@@ -66,12 +66,12 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
     			add_header Cache-Control "max-age=0";
     		}
     		location /app/bundles {
-    			root       /Users/jeff/readup/web/bin/dev/app/client;
+    			alias      /Users/jeff/readup/web/bin/dev/app/client;
     			add_header Access-Control-Allow-Origin *;
     			add_header Cache-Control "max-age=0";
     		}
     		location /embed {
-    			root       /Users/jeff/readup/web/bin/dev/embed;
+    			alias      /Users/jeff/readup/web/bin/dev/embed;
     			add_header Access-Control-Allow-Origin *;
     			add_header Cache-Control "max-age=0";
     		}
