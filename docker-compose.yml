@@ -1,0 +1,27 @@
+# TODO: add a reverse nginx proxy container
+version: "3.9"
+services:
+  db:
+    build: ../db
+    hostname: readup-db
+    # See Docker documentation in ../db/readme.md
+    # TODO: set a default password here for an easy start?
+    env_file: ../db/.env
+    volumes:
+      - ../db:/host
+      - db-data:/var/lib/postgresql/data
+    # Also expose ports for compatibility with external nginx reverse proxy
+    ports:
+      - "5432:5432"
+  api:
+    build: ../api
+    hostname: readup-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    # Also expose ports for external testing
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../api:/api
+volumes:
+  db-data:

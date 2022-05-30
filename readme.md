@@ -10,6 +10,20 @@ There are three main repositories that constitute the core of the Readup platfor
 3. https://github.com/reallyreadit/web
 
 Once completed, you'll have database, API and web servers running locally. You could technically run Readup at this point but the sample configuration files use `*.dev.readup.com` domain names and `https` for each service because browsers treat websites running on `localhost` or an IP address and served over non-default ports or an insecure connection with special consideration. In order to more closely match the production environment we'll set up a reverse-proxy web server in a following step.
+
+### With Docker-compose (WIP)
+
+Start the project for the first time. Only includes the db and api services.
+
+```
+docker-compose -p readup -f
+```
+
+Import a database dump. `readup_db_1` is the name of the db container created by docker-compose above.
+```
+docker exec --user postgres readup_db_1 pwsh /dev-scripts/restore.ps1 -DbName rrit -DumpFile /host/2022-01-28-thor-api_master_68ba8bf.tar
+```
+
 ### Optional
 The following repositories can optionally be installed now or at any point in the future:
 
