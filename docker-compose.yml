@@ -6,8 +6,10 @@ services:
     # See Docker documentation in ../db/readme.md
     # TODO: set a default password here for an easy start?
     env_file: ../db/.env
+    environment:
+      - POSTGRES_PASSWORD=postgres
     volumes:
-      - ../db:/host
+      - ../db:/db
       - db-data:/var/lib/postgresql/data
     # Also expose ports for compatibility with external nginx reverse proxy
     ports:
@@ -27,7 +29,6 @@ services:
   web:
     depends_on:
       - api
-      - proxy
     build: ../web
     hostname: readup-web
     ports:
@@ -50,6 +51,10 @@ services:
   # Reverse proxy + static server
   # See ./readme.md
   proxy:
+    # nginx will report emergency failures when upstream hosts are not found (readup-api, readup-web)
+    depends_on:
+      - web
+      - api
     build:
       context: .
       dockerfile: docker-reverse-proxy/Dockerfile
@@ -64,5 +69,26 @@ services:
       - ../static/content:/static:ro
       - ../web:/web:ro
       - ../blog:/blog:ro
+  # Starts a watching build server that is accessible via https://blog.dev.readup.com (via proxy)
+  blog:
+    image: jekyll/jekyll:4.1.0
+    profiles:
+      - blog 
+    command: ["jekyll", "build", "-w"]
+    depends_on:
+      - proxy
+    volumes:
+      - ../blog:/srv/jekyll:Z
+  mail:
+    build: https://github.com/sj26/mailcatcher.git#main
+    depends_on:
+      - api
+    profiles:
+      - mail
+    hostname: readup-mail
+    ports:
+      # Publish port to view the interface at http://localhost:1080
+      - "1080:1080"
+  
 volumes:
   db-data:

@@ -15,14 +15,23 @@ Next, you have a choice on how to set up the development environment.
 
 The easiest way to use [Docker](https://www.docker.com/get-started/) and our Docker Compose configuration. With one command, this will install and run the required server containers to get started: the node.js 14 `web` server, ASP.NET 3.1 `api` server, Postgres 14 `db` server, and a reverse proxy server that provides a HTTPS interface to the previous services. See "Install via Docker" below.
 
-Alternatively, you can manually install all these dependencies by following the readmes of [`db`](https://github.com/reallyreadit/db), [`api`](https://github.com/reallyreadit/api) and [`web`](https://github.com/reallyreadit/web), in that order. Then skip to "Manual Installation" in readme.
+Alternatively, you can manually install all these dependencies by following the readmes of [`db`](https://github.com/reallyreadit/db), [`api`](https://github.com/reallyreadit/api) and [`web`](https://github.com/reallyreadit/web), in that order. Then skip to "Manual Installation".
 
 
 ## Quickstart: install via Docker
 
 ### 1. Run the containers with Docker Compose
 
-Run this command in the the root of this `dev-env`. Make sure that the `web`, `dev` and `api` repository folders are siblings of the `dev-env` folder, otherwise it will not work. 
+Run these commands in the the root of this `dev-env`. Make sure that the `web`, `dev` and `api` repository folders are siblings of the `dev-env` folder, otherwise they will not work. If you don't use a UNIX-style CLI (Windows), change the commands as appropriate:
+
+Enable the default config for Docker in `api`
+```
+cd ../api
+cp ./appsettings.docker.json appsettings.json
+cd -
+```
+
+Set up all services with Docker Compose
 
 ```
 docker-compose -p readup -f docker-compose.yml up -d
@@ -38,10 +47,10 @@ Development won't go smoothly with an empty database, you'll need to seed in a d
 
 **NOTE:** we do not publicly provide a database dump right now, but you can request one in our Discord #development channel.
 
-Add `my-database-dump.tar` to the `db` repo folder. Then run the following command from within the `db` repo to import it:
+Add `my-database-dump.tar` to the `db` repo folder. Then run the following command to import it:
 
 ```
-docker exec --user postgres readup_db_1 pwsh /dev-scripts/restore.ps1 -DbName rrit -DumpFile /host/my-database-dump.tar
+docker exec --user postgres readup_db_1 pwsh /db/dev-scripts/restore.ps1 -DbName rrit -DumpFile /db/my-database-dump.tar
 ```
 
 In this command, `readup_db_1` is the name of your db container. Verify your container also has this name with `docker container ls`.
@@ -83,6 +92,36 @@ Add the following entries to your hosts file located at `/private/etc/hosts` (ma
 You should now be able to navigate to [https://dev.readup.com](https://dev.readup.com) in your browser, and see the Readup homepage.
 
 Running [https://dev.readup.com/?clientType=App](https://dev.readup.com/?clientType=App) should allow you to create a new Readup account in your development environment and open the Readup web app.
+
+
+## Other Docker services
+
+### Blog
+
+The Readup blog, served at [https://blog.readup.com](https://blog.readup.com), is a Jekyll site. 
+
+The blog code lives in this repository: [https://github.com/reallyreadit/blog](https://github.com/reallyreadit/blog).
+
+A development container is not started by default, but can be manually started with:
+
+```
+docker compose -p readup up blog -d
+```
+
+The default reverse-proxy server is set to point [https://blog.dev.readup.com](https://blog.dev.readup.com) to the build output directory. Useful for testing the embed.
+
+### Mail server
+
+The `api` server might send emails on certain events, for example, on the creation of an account. To intercept and debug these emails, the Compose project also includes an optional [mailcatcher](https://mailcatcher.me/) container. The default Docker API server config is already configured to connect to it.
+
+Start this container manually with:
+
+```
+docker compose -p readup up mail -d
+```
+
+Then view intercepted emails at [http://localhost:1080](http:://localhost:1080)
+
 ## Manual Installation
 
 Refer to this section when you can not (or don't want to) use Docker, or when you want to understand the inner workings of the Readup dev env for more advanced configuration.
@@ -229,7 +268,6 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
 The following repositories can optionally be installed now or at any point in the future:
 
 1. https://github.com/reallyreadit/article-test-server - A local source of articles so you can test Readup without interfacing with a 3rd party server. Contains articles with various content and metadata structures for parser testing.
-2. https://github.com/reallyreadit/blog - The Readup blog. The reverse-proxy server can be configured to point to the build output directory. Useful for testing the embed.
-3. https://github.com/reallyreadit/css-id - A small utility program for generating unique CSS class names for the purpose of scoping style rules to a specific component.
-4. https://github.com/reallyreadit/ios - The Readup iOS client.
-5. https://github.com/reallyreadit/twitter-test-server - A mock Twitter API implementation for integration testing.
+2. https://github.com/reallyreadit/css-id - A small utility program for generating unique CSS class names for the purpose of scoping style rules to a specific component.
+3. https://github.com/reallyreadit/ios - The Readup iOS client.
+4. https://github.com/reallyreadit/twitter-test-server - A mock Twitter API implementation for integration testing.
