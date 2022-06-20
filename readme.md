@@ -1,4 +1,5 @@
 # Readup Development Environment Setup Guide
+
 ## Core repositories
 
 Readup will run on Linux, macOS or Windows. There are three main repositories that constitute the core of the Readup platform: [`db`](https://github.com/reallyreadit/db), [`api`](https://github.com/reallyreadit/api) and [`web`](https://github.com/reallyreadit/web).
@@ -13,10 +14,9 @@ for repo in db api web dev-env static blog; do git clone https://github.com/real
 
 Next, you have a choice on how to set up the development environment. 
 
-The easiest way to use [Docker](https://www.docker.com/get-started/) and our Docker Compose configuration. With one command, this will install and run the required server containers to get started: the node.js 14 `web` server, ASP.NET 3.1 `api` server, Postgres 14 `db` server, and a reverse proxy server that provides a HTTPS interface to the previous services. See "Install via Docker" below.
+The easiest way to use [Docker](https://www.docker.com/get-started/) and our Docker Compose configuration. With one command, this will install and run the required server containers to get started developing: the node.js 14 `web` server, ASP.NET 3.1 `api` server, Postgres 14 `db` server, and a reverse proxy server that provides a HTTPS interface to the previous services. See "Install via Docker" below.
 
-Alternatively, you can manually install all these dependencies by following the readmes of [`db`](https://github.com/reallyreadit/db), [`api`](https://github.com/reallyreadit/api) and [`web`](https://github.com/reallyreadit/web), in that order. Then skip to "Manual Installation".
-
+Alternatively, you can manually install these dependencies by following the readmes of [`db`](https://github.com/reallyreadit/db), [`api`](https://github.com/reallyreadit/api) and [`web`](https://github.com/reallyreadit/web), in that order. Then skip to "Manual Installation".
 
 ## Quickstart: install via Docker
 
@@ -114,9 +114,9 @@ Refer to this section when you can not (or don't want to) use Docker, or when yo
 
 This section assumes that you have already worked through the following the readmes of [`db`](https://github.com/reallyreadit/db), [`api`](https://github.com/reallyreadit/api) and [`web`](https://github.com/reallyreadit/web), in that order.
 
- The guides in the readme files use macOS commands and directory structures as examples so translations may be required for Linux and Windows systems. PowerShell is required to execute some scripts that are included in various repositories. It is included by default in Windows but will need to be installed separately on Linux and macOS systems: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell
+The guides in the readme files use macOS commands and directory structures as examples so translations may be required for Linux and Windows systems. PowerShell is required to execute some scripts that are included in various repositories. It is included by default in Windows but will need to be installed separately on Linux and macOS systems: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell
 
-Once you completed manual set-up instructions of readmes, you'll have database, API and web servers running locally. For the reasons outlined in the Docker installation steps 4 & 5, you'll need to manually set up a reverse proxy that allows us to host the Readup web app at `https://dev.readup.com`, locally. That reverse proxy also
+Once you completed manual set-up instructions of readmes, you'll have database, API and web servers running locally. For the reasons outlined in the Docker installation steps 4 & 5, you'll need to manually set up a reverse proxy that allows us to host the Readup web app at `https://dev.readup.com`, locally.
 
 First, complete those steps (trust the SSL certificate and set up the hosts file). Then refere
 
@@ -139,9 +139,10 @@ The `static.readup.com` production server serves four main purposes:
 For development purposes, the static content is served from the `content` directory in the `static`, by the reverse nginx proxy detailed next.
 
 ### Reverse-Proxy Web Server
+
 This setup guide uses nginx but any web server capable of acting as a reverse-proxy and serving static content will work. The directories and commands are for macOS and will need to be modified for other operating systems.
 1. Install nginx using Macports or Homebrew. Macports installation is as follows:
-        
+
     1. Install Macports: https://www.macports.org/install.php The installer should add `/opt/local/bin` and `/opt/local/sbin` to your `PATH`.
 	 2. Install nginx: `sudo port install nginx`
 	 3. Start nginx: `sudo port load nginx`
@@ -180,29 +181,29 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
     	server {
     		server_name static.dev.readup.com;
     		location / {
-    			root       /Users/jeff/readup/dev-env/static;
+    			root       /Users/jeff/readup/static/content;
     			add_header Access-Control-Allow-Origin *;
     			add_header Cache-Control "max-age=0";
     		}
-			# Refers to the standalone static content repository (with image assets etc.)
-			location / {
-				root       /Users/jeff/readup/static/content;
-				add_header Access-Control-Allow-Origin *;
-				add_header Cache-Control "max-age=0";
-			}
-			# Refers to compiled web bundles in web
-			location /app/bundles {
-				alias      /Users/jeff/readup/web/bin/dev/app/client;
-				add_header Access-Control-Allow-Origin *;
-				add_header Cache-Control "max-age=0";
-			}
+        # Refers to the standalone static content repository (with image assets etc.)
+        location / {
+          root       /Users/jeff/readup/static/content;
+          add_header Access-Control-Allow-Origin *;
+          add_header Cache-Control "max-age=0";
+        }
+        # Refers to compiled web bundles in web
+        location /app/bundles {
+          alias      /Users/jeff/readup/web/bin/dev/app/client;
+          add_header Access-Control-Allow-Origin *;
+          add_header Cache-Control "max-age=0";
+        }
     		location /common/auth-service-popup-handler/v1/index.html {
     			alias      /Users/jeff/readup/web/src/common/auth-service-popup-handler/index.html;
     			add_header Access-Control-Allow-Origin *;
     			add_header Cache-Control "max-age=0";
     		}
     		location /embed {
-    			root       /Users/jeff/readup/web/bin/dev/embed;
+    			alias      /Users/jeff/readup/web/bin/dev/embed;
     			add_header Access-Control-Allow-Origin *;
     			add_header Cache-Control "max-age=0";
     		}
@@ -236,7 +237,6 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
 
         sudo nginx -s reload
 6. If you haven't already done this, add the `ca.dev.reallyread.it.cer` certificate to your system as a trusted root certificate authority. Refer to the related instructions of the Docker setup, and take into account these considerations for developing with mobile devices. 
-    
     - iOS (Simulator)
 	     - Drag and drop the `ca.dev.reallyread.it.cer` file into the Simulator window.
     - iOS (Physical Device)
