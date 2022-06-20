@@ -22,7 +22,7 @@ Alternatively, you can manually install all these dependencies by following the 
 
 ### 1. Run the containers with Docker Compose
 
-Run these commands in the the root of this `dev-env`. Make sure that the `web`, `dev` and `api` repository folders are siblings of the `dev-env` folder, otherwise they will not work. If you don't use a UNIX-style CLI (Windows), change the commands as appropriate:
+Run these commands in the the root of this `dev-env`. Make sure that the `web`, `dev` and `api` repository folders are siblings of the `dev-env` folder, otherwise the relative folder references in the Compose file will not work. If you don't use a UNIX-style CLI (Windows), change the commands as appropriate:
 
 Enable the default config for Docker in `api`
 ```
@@ -34,29 +34,14 @@ cd -
 Set up all services with Docker Compose
 
 ```
-docker-compose -p readup -f docker-compose.yml up -d
+docker-compose -p readup -f docker-compose.yml up --build -d
 ```
 
 This command will download, install, configure and run the node.js 14 `web` server, ASP.NET `api` server, Postgres 14 `db` server, and a reverse proxy server.
 
 With the default Dockerfiles, `web` will run a development server that can be used for basic web app development purposes. To develop the Readup embed, web extension, desktop or iOS app, you need to read the docs of the `web` and other relevant repositories (`ios`, `desktop`) to learn how to further configure your environment, and which build commands to run inside the container (some Docker experience is helpful).
 
-### 2. Import a database dump
-
-Development won't go smoothly with an empty database, you'll need to seed in a development database dump.
-
-**NOTE:** we do not publicly provide a database dump right now, but you can request one in our Discord #development channel.
-
-Add `my-database-dump.tar` to the `db` repo folder. Then run the following command to import it:
-
-```
-docker exec --user postgres readup_db_1 pwsh /db/dev-scripts/restore.ps1 -DbName rrit -DumpFile /db/my-database-dump.tar
-```
-
-In this command, `readup_db_1` is the name of your db container. Verify your container also has this name with `docker container ls`.
-
-
-### 3. Trust Readup's SSL root certificate authority
+### 2. Trust Readup's SSL root certificate authority
 
 You could technically run Readup at this point, but the default web server configuration makes Readup run via `https` (and not `http`), because browsers treat websites served over an insecure connection with special consideration. To enable HTTPS for development purposes, Readup uses a self-signed certificate included in this `dev-env` repository. 
 
@@ -73,7 +58,7 @@ On macOS and Windows most browsers will accept the certificate once added to the
 2. Scroll down to the "Certificates" section and click "View Certificates..."
 3. Go to the "Authorities" tab and click "Import" to import the `ca.dev.reallyread.it.cer` certificate.
 
-### 4. Set up your hosts file
+### 3. Set up your hosts file
 
 Again, to better match the production environment, the default development configuration uses the `dev.readup.com` domain name (with `https`) rather than `localhost` because websites running on `localhost` and served over non-default ports are treated with special care.
 
@@ -87,12 +72,13 @@ Add the following entries to your hosts file located at `/private/etc/hosts` (ma
 127.0.0.1 article-test.dev.readup.com
 127.0.0.1 twitter-test.dev.readup.com
 ```
-### 5. Done!?
+### 4. Done!?
 
 You should now be able to navigate to [https://dev.readup.com](https://dev.readup.com) in your browser, and see the Readup homepage.
 
-Running [https://dev.readup.com/?clientType=App](https://dev.readup.com/?clientType=App) should allow you to create a new Readup account in your development environment and open the Readup web app.
+Running [https://dev.readup.com/?clientType=App](https://dev.readup.com/?clientType=App) should allow you to create a new Readup account in your development environment and open the Readup web app. You can also log into the default testing user of the seed data with the username `sample@email.com` and password `password`.
 
+Let us know [on our Discord](https://discord.gg/GJkaPfdSFE) if there were any issues!
 
 ## Other Docker services
 
