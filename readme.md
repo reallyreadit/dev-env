@@ -12,11 +12,11 @@ cd readup
 for repo in db api web dev-env static blog; do git clone https://github.com/reallyreadit/$repo; done
 ```
 
-Next, you have a choice on how to set up the development environment. 
+Next, you have a choice on how to set up the development environment.
 
-The easiest way to use [Docker](https://www.docker.com/get-started/) and our Docker Compose configuration. With one command, this will install and run the required server containers to get started developing: the node.js 14 `web` server, ASP.NET 3.1 `api` server, Postgres 14 `db` server, and a reverse proxy server that provides a HTTPS interface to the previous services. See "Install via Docker" below.
+The easiest way is to use [Docker](https://www.docker.com/get-started/) and our [Docker Compose](https://docs.docker.com/compose/gettingstarted/) configuration. With one command, this will install and run the required server containers to get started with development: the node.js 14 `web` server, ASP.NET 3.1 `api` server, Postgres 14 `db` server, and a reverse proxy server that provides a HTTPS interface to the previous services. See "Install via Docker" below.
 
-Alternatively, you can manually install these dependencies by following the readmes of [`db`](https://github.com/reallyreadit/db), [`api`](https://github.com/reallyreadit/api) and [`web`](https://github.com/reallyreadit/web), in that order. Then skip to "Manual Installation".
+Alternatively, you can manually install all these dependencies by following the readmes of [`db`](https://github.com/reallyreadit/db), [`api`](https://github.com/reallyreadit/api) and [`web`](https://github.com/reallyreadit/web), in that order. Then skip to "Manual Installation".
 
 ## Quickstart: install via Docker
 
@@ -39,14 +39,16 @@ docker-compose -p readup -f docker-compose.yml up --build -d
 
 This command will download, install, configure and run the node.js 14 `web` server, ASP.NET `api` server, Postgres 14 `db` server, and a reverse proxy server.
 
+_Note_: if you get an error on macOS Monterey (or later) that port 5000 is already in use; this is caused by the AirPlay Receiver. You can disable the receiver temporarily in the System Preferences - Sharing, then start the API container again. After this, re-enable the receiver, it will pick a different port.
+
 With the default Dockerfiles, `web` will run a development server that can be used for basic web app development purposes. To develop the Readup embed, web extension, desktop or iOS app, you need to read the docs of the `web` and other relevant repositories (`ios`, `desktop`) to learn how to further configure your environment, and which build commands to run inside the container (some Docker experience is helpful).
 
 ### 2. Trust Readup's SSL root certificate authority
 
-You could technically run Readup at this point, but the default web server configuration makes Readup run via `https` (and not `http`), because browsers treat websites served over an insecure connection with special consideration. To enable HTTPS for development purposes, Readup uses a self-signed certificate included in this `dev-env` repository. 
+You could technically run Readup at this point, but the default web server configuration makes Readup run via `https` (and not `http`), because browsers treat websites served over an insecure connection with special consideration. To enable HTTPS for development purposes, Readup uses a self-signed certificate included in this `dev-env` repository.
 
 In order to make sure that your system accepts this self-signed ceritficate, `ca.dev.reallyread.it.cer` from the `ssl` directory in this repo should be added to your system as a trusted root certificate authority. Here's how:
-    
+
 - macOS
 	- Import into "System" in Keychain Access
 	- Right-click certificate and select "Get Info"
@@ -84,7 +86,7 @@ Let us know [on our Discord](https://discord.gg/GJkaPfdSFE) if there were any is
 
 ### Blog
 
-The Readup blog, served at [https://blog.readup.com](https://blog.readup.com), is a Jekyll site. 
+The Readup blog, served at [https://blog.readup.com](https://blog.readup.com), is a Jekyll site.
 
 The blog code lives in this repository: [https://github.com/reallyreadit/blog](https://github.com/reallyreadit/blog).
 
@@ -124,7 +126,7 @@ First, complete those steps (trust the SSL certificate and set up the hosts file
 The `static.readup.com` production server serves four main purposes:
 
 1. **Hosting font and image files used by the various Readup clients.**
-    
+
 	 These files are included in this repository in the `static` directory. This will be the root directory of our `static.readup.com` development server.
 2. **Hosting the authentication service popup handler HTML file.**
 
@@ -236,7 +238,7 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
 5. Restart nginx to reload the configuration file.
 
         sudo nginx -s reload
-6. If you haven't already done this, add the `ca.dev.reallyread.it.cer` certificate to your system as a trusted root certificate authority. Refer to the related instructions of the Docker setup, and take into account these considerations for developing with mobile devices. 
+6. If you haven't already done this, add the `ca.dev.reallyread.it.cer` certificate to your system as a trusted root certificate authority. Refer to the related instructions of the Docker setup, and take into account these considerations for developing with mobile devices.
     - iOS (Simulator)
 	     - Drag and drop the `ca.dev.reallyread.it.cer` file into the Simulator window.
     - iOS (Physical Device)
