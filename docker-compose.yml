@@ -1,0 +1,94 @@
+version: "3.9"
+services:
+  db:
+    build: ../db
+    hostname: readup-db
+    # See Docker documentation in ../db/readme.md
+    # TODO: set a default password here for an easy start?
+    env_file: ../db/.env
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ../db:/db
+      - db-data:/var/lib/postgresql/data
+    # Also expose ports for compatibility with external nginx reverse proxy
+    ports:
+      - "5432:5432"
+  api:
+    depends_on:
+      - db
+    build: ../api
+    hostname: readup-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    # Also expose ports for external testing
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../api:/api
+  web:
+    depends_on:
+      - api
+    build: ../web
+    hostname: readup-web
+    ports:
+      - "5001:5001"
+    volumes:
+      - ../web:/web
+    # This allows `web` to access api.dev.readup.com, leave the containers
+    # to the host at localhost, then enter the proxy container via the mapped localhost:443,
+    # and then get directed to the `api` container via the proxy.
+    # 
+    # TODO: this seems inefficient, it's maybe possible to skip this indirection via the host:
+    # - Somehow direct api.dev.readup.com within `web` to readup-proxy
+    #   (it's not possible with extra_hosts. Maybe with a DNS server inside `web`? 
+    #    If that's more efficient.)
+    # - Or, web's config files could not try to connect to https://api.dev.readup.com,
+    #   but to http://readup-api:5001 instead, in case of the Docker dev env.
+    #   However, then we lose the HTTPS at the proxy level.
+    extra_hosts: 
+      - "api.dev.readup.com:host-gateway"
+  # Reverse proxy + static server
+  # See ./readme.md
+  proxy:
+    # nginx will report emergency failures when upstream hosts are not found (readup-api, readup-web)
+    depends_on:
+      - web
+      - api
+    build:
+      context: .
+      dockerfile: docker-reverse-proxy/Dockerfile
+    hostname: readup-proxy
+    ports:
+      - "443:443"
+    volumes:
+      # The reverse proxy needs to access several repositories
+      # to statically host certain directories and files under
+      # static.dev.readup.com
+      # See ./docker-reverse-proxy/nginx.conf
+      - ../static/content:/static:ro
+      - ../web:/web:ro
+      - ../blog:/blog:ro
+  # Starts a watching build server that is accessible via https://blog.dev.readup.com (via proxy)
+  blog:
+    image: jekyll/jekyll:4.1.0
+    profiles:
+      - blog 
+    command: ["jekyll", "build", "-w"]
+    depends_on:
+      - proxy
+    volumes:
+      - ../blog:/srv/jekyll:Z
+  mail:
+    build: https://github.com/sj26/mailcatcher.git#main
+    depends_on:
+      - api
+    profiles:
+      - mail
+    hostname: readup-mail
+    ports:
+      # Publish port to view the interface at http://localhost:1080
+      - "1080:1080"
+  
+volumes:
+  db-data:
