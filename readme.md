@@ -110,6 +110,22 @@ docker compose -p readup up mail -d
 
 Then view intercepted emails at [http://localhost:1080](http:://localhost:1080)
 
+### Article test server
+
+Configure:
+
+```
+cd ../article-test-server
+cp ./appsettings.docker.json appsettings.json
+cd -
+```
+
+Then start it manually with:
+
+```
+docker compose -p readup up article-test-server -d
+```
+
 ## Manual Installation
 
 Refer to this section when you can not (or don't want to) use Docker, or when you want to understand the inner workings of the Readup dev env for more advanced configuration.

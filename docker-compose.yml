@@ -38,15 +38,15 @@ services:
     # This allows `web` to access api.dev.readup.com, leave the containers
     # to the host at localhost, then enter the proxy container via the mapped localhost:443,
     # and then get directed to the `api` container via the proxy.
-    # 
+    #
     # TODO: this seems inefficient, it's maybe possible to skip this indirection via the host:
     # - Somehow direct api.dev.readup.com within `web` to readup-proxy
-    #   (it's not possible with extra_hosts. Maybe with a DNS server inside `web`? 
+    #   (it's not possible with extra_hosts. Maybe with a DNS server inside `web`?
     #    If that's more efficient.)
     # - Or, web's config files could not try to connect to https://api.dev.readup.com,
     #   but to http://readup-api:5001 instead, in case of the Docker dev env.
     #   However, then we lose the HTTPS at the proxy level.
-    extra_hosts: 
+    extra_hosts:
       - "api.dev.readup.com:host-gateway"
   # Reverse proxy + static server
   # See ./readme.md
@@ -73,7 +73,7 @@ services:
   blog:
     image: jekyll/jekyll:4.1.0
     profiles:
-      - blog 
+      - blog
     command: ["jekyll", "build", "-w"]
     depends_on:
       - proxy
@@ -89,6 +89,16 @@ services:
     ports:
       # Publish port to view the interface at http://localhost:1080
       - "1080:1080"
-  
+  article-test-server:
+      build: ../article-test-server
+      hostname: article-test-server
+      profiles:
+        - article-testing
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+      # Also expose ports for external testing
+      ports:
+        - "5002:5002"
+
 volumes:
   db-data:
