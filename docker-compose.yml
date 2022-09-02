@@ -3,9 +3,6 @@ services:
   db:
     build: ../db
     hostname: readup-db
-    # See Docker documentation in ../db/readme.md
-    # TODO: set a default password here for an easy start?
-    env_file: ../db/.env
     environment:
       - POSTGRES_PASSWORD=postgres
     volumes:
