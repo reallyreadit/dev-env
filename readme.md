@@ -22,20 +22,33 @@ Alternatively, you can manually install all these dependencies by following the 
 
 ### 1. Run the containers with Docker Compose
 
+#### Configuring the `api`
+
 Run these commands in the the root of this `dev-env`. Make sure that the `web`, `dev` and `api` repository folders are siblings of the `dev-env` folder, otherwise the relative folder references in the Compose file will not work. If you don't use a UNIX-style CLI (Windows), change the commands as appropriate:
 
 Enable the default config for Docker in `api`
 ```
 cd ../api
 cp ./appsettings.docker.json appsettings.json
+cp ./hostsettings.docker.json hostsettings.json
 cd -
 ```
 
-Set up all services with Docker Compose
+#### Configuring the `web` app
+
+The default `web` docker-compose setup maps the `../web` host directory onto the docker runtime web app root, to enable live-server development from the start. As a consequence, if you never ran `npm ci` or `npm install` in `web` on your host machine, the docker runtime won't have installed dependencies.
+
+The surest way to proceed is to open `web` as a VSCode dev container, and run `npm ci` within the container. The container has the needed node/npm runtime preinstalled and will write the `node_modules` to your host filesystem.
+
+If you have node v14 installed on your host, you cal also just run `npm ci` in `web` without using container.
+#### Starting all services
+
+Set up all services with Docker Compose:
 
 ```
 docker-compose -p readup -f docker-compose.yml up --build -d
 ```
+(or `docker compose` without the dash, in case you have the modern plugin installed)
 
 This command will download, install, configure and run the node.js 14 `web` server, ASP.NET `api` server, Postgres 14 `db` server, and a reverse proxy server.
 
@@ -54,11 +67,26 @@ In order to make sure that your system accepts this self-signed ceritficate, `ca
 	- Right-click certificate and select "Get Info"
 	- Expand the "Trust" section and select "Always Trust"
 - Windows: import into the local computer's "Trusted Root Certification Authorities" location.
+- Linux: in the case of a Ubuntu-based distro, check [these official instructions](https://ubuntu.com/server/docs/security-trust-store). If you're using another distro, you can probably find the answer with a web search yourself! This worked on ElementaryOS Jolnir with ca-certificates pre-installed:
+   ```
+   sudo cp ca.dev.reallyread.it.cer /usr/local/share/ca-certificates/ca.dev.reallyread.it.crt
+   sudo update-ca-certificates
+   ```
 
-On macOS and Windows most browsers will accept the certificate once added to the system certificate store. Firefox on macOS at least uses its own certificate store and requires the following steps. Other browsers may be similar.
+Most browsers will accept the certificate once added to the system certificate store.
+
+Firefox on macOS uses its own certificate store and requires the following steps.
 1. Open "Preferences" and go to "Privacy & Security"
 2. Scroll down to the "Certificates" section and click "View Certificates..."
 3. Go to the "Authorities" tab and click "Import" to import the `ca.dev.reallyread.it.cer` certificate.
+
+Similary, Chrome on Ubuntu also seems to use its own store (at least with ElementaryOS 6.1).
+1. In the settings, go to "Privacy & Security"
+2. Open "Security", then scroll down to open "Manage Certificates"
+3. Click the tab "Authorities"
+4. Import `ca.dev.reallyread.it.cer`. You may need to enable "All Files" in your file manager, as the `.cer` extension could be unexpected by Chrome.
+
+Other browsers on other operating systems may need similar steps.
 
 ### 3. Set up your hosts file
 
