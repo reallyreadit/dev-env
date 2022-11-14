@@ -90,23 +90,23 @@ Other browsers on other operating systems may need similar steps.
 
 ### 3. Set up your hosts file
 
-Again, to better match the production environment, the default development configuration uses the `dev.readup.com` domain name (with `https`) rather than `localhost` because websites running on `localhost` and served over non-default ports are treated with special care.
+Again, to better match the production environment, the default development configuration uses the `dev.readup.org` domain name (with `https`) rather than `localhost` because websites running on `localhost` and served over non-default ports are treated with special care.
 
 Add the following entries to your hosts file located at `/private/etc/hosts` (macOS), `/etc/hosts` (most Linux distributions) or `C:\Windows\System32\drivers\etc\hosts` (Windows):
 
 ```
-127.0.0.1 api.dev.readup.com
-127.0.0.1 dev.readup.com
-127.0.0.1 static.dev.readup.com
-127.0.0.1 blog.dev.readup.com
-127.0.0.1 article-test.dev.readup.com
-127.0.0.1 twitter-test.dev.readup.com
+127.0.0.1 api.dev.readup.org
+127.0.0.1 dev.readup.org
+127.0.0.1 static.dev.readup.org
+127.0.0.1 blog.dev.readup.org
+127.0.0.1 article-test.dev.readup.org
+127.0.0.1 twitter-test.dev.readup.org
 ```
 ### 4. Done!?
 
-You should now be able to navigate to [https://dev.readup.com](https://dev.readup.com) in your browser, and see the Readup homepage.
+You should now be able to navigate to [https://dev.readup.org](https://dev.readup.org) in your browser, and see the Readup homepage.
 
-Running [https://dev.readup.com/?clientType=App](https://dev.readup.com/?clientType=App) should allow you to create a new Readup account in your development environment and open the Readup web app. You can also log into the default testing user of the seed data with the username `sample@email.com` and password `password`.
+Running [https://dev.readup.org/?clientType=App](https://dev.readup.org/?clientType=App) should allow you to create a new Readup account in your development environment and open the Readup web app. You can also log into the default testing user of the seed data with the username `sample@email.com` and password `password`.
 
 Let us know [on our Discord](https://discord.gg/GJkaPfdSFE) if there were any issues!
 
@@ -114,7 +114,7 @@ Let us know [on our Discord](https://discord.gg/GJkaPfdSFE) if there were any is
 
 ### Blog
 
-The Readup blog, served at [https://blog.readup.com](https://blog.readup.com), is a Jekyll site.
+The Readup blog, served at [https://blog.readup.org](https://blog.readup.org), is a Jekyll site.
 
 The blog code lives in this repository: [https://github.com/reallyreadit/blog](https://github.com/reallyreadit/blog).
 
@@ -124,7 +124,7 @@ A development container is not started by default, but can be manually started w
 docker compose -p readup up blog -d
 ```
 
-The default reverse-proxy server is set to point [https://blog.dev.readup.com](https://blog.dev.readup.com) to the build output directory. Useful for testing the embed.
+The default reverse-proxy server is set to point [https://blog.dev.readup.org](https://blog.dev.readup.org) to the build output directory. Useful for testing the embed.
 
 ### Mail server
 
@@ -162,16 +162,16 @@ This section assumes that you have already worked through the following the read
 
 The guides in the readme files use macOS commands and directory structures as examples so translations may be required for Linux and Windows systems. PowerShell is required to execute some scripts that are included in various repositories. It is included by default in Windows but will need to be installed separately on Linux and macOS systems: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell
 
-Once you completed manual set-up instructions of readmes, you'll have database, API and web servers running locally. For the reasons outlined in the Docker installation steps 4 & 5, you'll need to manually set up a reverse proxy that allows us to host the Readup web app at `https://dev.readup.com`, locally.
+Once you completed manual set-up instructions of readmes, you'll have database, API and web servers running locally. For the reasons outlined in the Docker installation steps 4 & 5, you'll need to manually set up a reverse proxy that allows us to host the Readup web app at `https://dev.readup.org`, locally.
 
 First, complete those steps (trust the SSL certificate and set up the hosts file). Then refere
 
 ### Static Content
-The `static.readup.com` production server serves four main purposes:
+The `static.readup.org` production server serves four main purposes:
 
 1. **Hosting font and image files used by the various Readup clients.**
 
-	 These files are included in this repository in the `static` directory. This will be the root directory of our `static.readup.com` development server.
+	 These files are included in this repository in the `static` directory. This will be the root directory of our `static.readup.org` development server.
 2. **Hosting the authentication service popup handler HTML file.**
 
     This is a single static source file in the `web` repository that is not currently handled by the build system. We'll set up an alias at `/common/auth-service-popup-handler/v1/index.html` that points to the source file.
@@ -193,12 +193,12 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
 	 2. Install nginx: `sudo port install nginx`
 	 3. Start nginx: `sudo port load nginx`
 	 4. Verify nginx is installed and running by visiting http://127.0.0.1
-2. Copy the `dev.readup.com.cer` and `dev.readup.com.key` files in the `ssl` directory to `/etc/ssl`
+2. Copy the `dev.readup.org.cer` and `dev.readup.org.key` files in the `ssl` directory to `/etc/ssl`
 3. Create a custom nginx configuration file at `/opt/local/etc/nginx/readup-server.conf` with the following content:
     ```
     listen              443 ssl;
-    ssl_certificate     /etc/ssl/dev.readup.com.cer;
-    ssl_certificate_key /etc/ssl/dev.readup.com.key;
+    ssl_certificate     /etc/ssl/dev.readup.org.cer;
+    ssl_certificate_key /etc/ssl/dev.readup.org.key;
     ```
 4. Update the nginx configuration file at `/opt/local/etc/nginx/nginx.conf` with the following changes:
 
@@ -211,21 +211,21 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
     ```
     http {
     	server {
-    		server_name dev.api.readup.com;
+    		server_name dev.api.readup.org;
     		location / {
     			proxy_pass http://127.0.0.1:5000;
     		}
     		include readup-server.conf;
     	}
     	server {
-    		server_name dev.readup.com;
+    		server_name dev.readup.org;
     		location / {
     			proxy_pass http://127.0.0.1:5001;
     		}
     		include readup-server.conf;
     	}
     	server {
-    		server_name static.dev.readup.com;
+    		server_name static.dev.readup.org;
     		location / {
     			root       /Users/jeff/readup/static/content;
     			add_header Access-Control-Allow-Origin *;
@@ -256,7 +256,7 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
     		include readup-server.conf;
     	}
     	server {
-    		server_name blog.dev.readup.com;
+    		server_name blog.dev.readup.org;
     		location / {
     			root       /Users/jeff/readup/blog/_site;
     			add_header Cache-Control "max-age=0";
@@ -264,14 +264,14 @@ This setup guide uses nginx but any web server capable of acting as a reverse-pr
     		include readup-server.conf;
     	}
     	server {
-    		server_name article-test.dev.readup.com;
+    		server_name article-test.dev.readup.org;
     		location / {
     			proxy_pass http://127.0.0.1:5002;
     		}
     		include readup-server.conf;
     	}
     	server {
-    		server_name twitter-test.dev.readup.com;
+    		server_name twitter-test.dev.readup.org;
     		location / {
     			proxy_pass http://127.0.0.1:5003;
     		}

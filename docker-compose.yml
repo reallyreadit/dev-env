@@ -32,19 +32,19 @@ services:
       - "5001:5001"
     volumes:
       - ../web:/web
-    # This allows `web` to access api.dev.readup.com, leave the containers
+    # This allows `web` to access api.dev.readup.org, leave the containers
     # to the host at localhost, then enter the proxy container via the mapped localhost:443,
     # and then get directed to the `api` container via the proxy.
     #
     # TODO: this seems inefficient, it's maybe possible to skip this indirection via the host:
-    # - Somehow direct api.dev.readup.com within `web` to readup-proxy
+    # - Somehow direct api.dev.readup.org within `web` to readup-proxy
     #   (it's not possible with extra_hosts. Maybe with a DNS server inside `web`?
     #    If that's more efficient.)
-    # - Or, web's config files could not try to connect to https://api.dev.readup.com,
+    # - Or, web's config files could not try to connect to https://api.dev.readup.org,
     #   but to http://readup-api:5001 instead, in case of the Docker dev env.
     #   However, then we lose the HTTPS at the proxy level.
     extra_hosts:
-      - "api.dev.readup.com:host-gateway"
+      - "api.dev.readup.org:host-gateway"
   # Reverse proxy + static server
   # See ./readme.md
   proxy:
@@ -61,12 +61,12 @@ services:
     volumes:
       # The reverse proxy needs to access several repositories
       # to statically host certain directories and files under
-      # static.dev.readup.com
+      # static.dev.readup.org
       # See ./docker-reverse-proxy/nginx.conf
       - ../static/content:/static:ro
       - ../web:/web:ro
       - ../blog:/blog:ro
-  # Starts a watching build server that is accessible via https://blog.dev.readup.com (via proxy)
+  # Starts a watching build server that is accessible via https://blog.dev.readup.org (via proxy)
   blog:
     image: jekyll/jekyll:4.1.0
     profiles:
